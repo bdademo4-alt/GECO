@@ -8,9 +8,23 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
         with:
-          persist-credentials: false
+          # allow the action to push back to the repository
+          persist-credentials: true
+          fetch-depth: 0
+
+      - name: Debug repository state
+        run: |
+          echo "--- git version ---"
+          git --version || true
+          echo "--- whoami ---"
+          whoami || true
+          echo "--- repo listing ---"
+          ls -la
+          echo "--- git status ---"
+          git status || true
 
       - name: Deploy to gh-pages
         uses: peaceiris/actions-gh-pages@v3
@@ -18,3 +32,6 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./
           publish_branch: gh-pages
+          # make deployment more robust and produce clear commit messages
+          allow_empty_commit: true
+          commit_message: "Deploy from GitHub Actions: ${{ github.sha }}"
