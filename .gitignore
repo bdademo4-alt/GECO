@@ -1,0 +1,10 @@
+# Node and OS
+node_modules/
+.DS_Store
+Thumbs.db
+
+# Visual Studio Code
+.vscode/
+
+# GitHub Pages branch (local publish directory if used)
+gh-pages/
